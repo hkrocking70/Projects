@@ -3,10 +3,10 @@ var http = require('http').Server(app);
 var mysql = require('mysql');
 var bodyParser = require("body-parser");
 var connection = mysql.createConnection({
-		host     : 'localhost',
+		host     : '127.0.0.1',
 		user     : 'root',
 		password : '',
-		database : 'complainBox',
+		database : 'complainbox',
 	});
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -19,7 +19,7 @@ app.get('/',function(req,res){
 
 app.get('/srmcomplain',function(req,res){
 	var data;
-	connection.query("SELECT * from complainRecord",function(err, rows, fields){
+	connection.query("SELECT * from complainrecord",function(err, rows, fields){
 		if(rows.length != 0){
 			data = rows;
 			res.json(data);
@@ -36,7 +36,7 @@ app.post('/srmcomplain',function(req,res){
 	var complain = req.body.complain;
 	var appstat = 1;
 	if(applicant && regid && complain) {
-		connection.query("INSERT INTO complainRecord VALUES('',?,?,?,?)",[applicant,regid,complain,appstat],function(err, rows, fields){
+		connection.query("INSERT INTO complainrecord VALUES('',?,?,?,?)",[applicant,regid,complain,appstat],function(err, rows, fields){
 			if(!!err){
 				res.json("Error Occured.");
 			}else{
@@ -53,7 +53,7 @@ app.put('/srmcomplain',function(req,res){
 	var complainid = req.body.complainid;
 	var appstat = req.body.appstat;
 	if(complainid){
-		connection.query("UPDATE complainRecord SET appstat=? WHERE complainid=?",[appstat,complainid],function(err, rows, fields){
+		connection.query("UPDATE complainrecord SET appstat=? WHERE complainid=?",[appstat,complainid],function(err, rows, fields){
 			if(!!err){
 				data = "Error Updating data";
 			}else{
@@ -71,7 +71,7 @@ app.delete('/srmcomplain',function(req,res){
 	var complainid = req.body.complainid;
 
 	if(complainid){
-		connection.query("DELETE from complainRecord WHERE complainid=?",[complainid],function(err, rows, fields){
+		connection.query("DELETE from complainrecord WHERE complainid=?",[complainid],function(err, rows, fields){
 			if(!!err){
 				data = "Error Deleting data";
 			}else{

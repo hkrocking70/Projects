@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel='stylesheet' href='/css/bootstrap.min.css' />
+    <link rel='stylesheet' href='/css/animate.css' />
+    <link rel='stylesheet' href='/css/style.css' />
+    <link rel='stylesheet' href='/fonts/font-awesome-4.5.0/css/font-awesome.min.css' />
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-ui.js"></script>    
+    <script type="text/javascript" src="/js/form.min.js"></script>    
+    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/script.js"></script>
+  </head>
+  <body>      
+        <% if (loggedin != 0) { %>
+            <% include ../public/include/context.ejs %>
+            <% include ../public/include/modals.ejs %>
+        <% } %>
+
+        <div class="row" style="background: rgb(238, 238, 238); margin-bottom: 10px;">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 topBar no-pad text-left animated slideInDown">
+                    <%= title %>
+            </div>
+            
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 outputContainer animated zoomIn">
+                <!--
+                <div class="col-lg-2 sideBar">
+                    <div class="col-lg-12" data-toggle="modal" data-target="#newFolder">New Folder</div>
+                    <div class="col-lg-12" data-toggle="modal" data-target="#newFile">New File</div>
+                    <div class="col-lg-12 msg"></div>
+                </div>
+                -->
+
+                <div class="col-lg-2 col-md-2 col-xs-12">&nbsp;</div>
+                <% if (loggedin != 0) { %>
+                    <div class="col-lg-8 col-md-8 col-xs-12 contentArea no-pad">
+                        
+                    </div>
+                <% } else { %>
+                    <div class="col-lg-8 col-md-8 col-xs-12 tempContentArea" style="padding-top: 15px; box-sizing: border-box;">
+                        <div class="col-lg-4 col-md-3 col-xs-12">&nbsp;</div>
+                        <div class="col-lg-4 col-md-6 col-xs-12 text-center">
+                            <form action="" method="post" enctype="multipart/form-data">
+                                <h3>Login</h3>
+                                <input type="text" class="form-control" name="uname" placeholder="Username" aria-describedby="basic-addon1"><br>
+                                <input type="password" class="form-control" name="pass" placeholder="Password" aria-describedby="basic-addon1"><br>
+                                <input type="submit" class="btn btn-default" value="Login"><br>
+                            </form>
+                        </div>
+                        <div class="col-lg-4 col-md-3 col-xs-12">&nbsp;</div>
+                    </div>
+                <% } %>
+                <div class="col-lg-2 col-md-2 col-xs-12">&nbsp;</div>
+
+            </div>
+
+        </div>
+
+        <% if (loggedin != 0) { %>
+        <div class="options">
+            <div class="menu">
+                <div data-toggle="modal" data-target="#newFolder" style="color: #4EABF5;"><i class="fa fa-folder"></i></div>
+                <div data-toggle="modal" data-target="#newFile" style="color: #3659BF;"><i class="fa fa-file"></i></div>
+                <div data-toggle="modal" data-target="#youtube" style="color: #E62117;"><i class="fa fa-youtube"></i></div>
+                <div data-toggle="modal" data-target="#uploadFile" style="color: #000000;"><i class="fa fa-cloud-upload"></i></div>
+            </div>
+
+            <div class="add">
+                <div class="addButton" style="font-size: 4vh;">
+                    <i class="fa fa-plus"></i>
+                </div>
+            </div>
+        </div>
+        <% } %>
+
+        <% if (loggedin != 0) { %>
+        <div class="messageBox" style="display: none;">
+            <div class="row no-pad">
+                <div class="close_message col-xs-12 text-right no-pad" style="border-bottom: 1px solid #EEE; padding: 5px 10px 5px 10px; background: #000; color: #FFF;"><i class="fa fa-times"></i></div>
+                <div class="col-xs-12 msg"></div>
+            </div>
+        </div>
+        <% } %>
+        
+  </body>
+</html>

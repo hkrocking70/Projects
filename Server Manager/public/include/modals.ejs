@@ -1,0 +1,167 @@
+  <div class="modal fade" id="newFolder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  		<div class="modal-dialog" role="document">
+    		<div class="modal-content">
+      			<div class="modal-header">
+        			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        			<h4 class="modal-title" id="myModalLabel">New Folder</h4>
+      			</div>
+      			<form method="post" class="submitBox" enctype="multipart/form-data" action=<%= action %>>
+	      			<div class="modal-body">
+                <input type="text" name="method" class="form-control" placeholder="File Name" aria-describedby="basic-addon2" value="createFolder" style="display: none;" readonly>
+	        			<input type="text" name="newFolderName" class="form-control inputBox" placeholder="Folder Name" aria-describedby="basic-addon2">
+	      			</div>
+	      			<div class="modal-footer">
+	        			<input type="submit" value="Submit" class="btn btn-primary">
+	      			</div>
+	      		</form>
+    		</div>
+  		</div>
+	</div>
+
+  <div class="modal fade" id="newFile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">New File</h4>
+            </div>
+            <form method="post" class="submitBox" enctype="multipart/form-data" action=<%= action %>>
+              <div class="modal-body">
+                <input type="text" name="method" class="form-control" placeholder="File Name" aria-describedby="basic-addon2" value="createFile" style="display: none;" readonly>
+                <input type="text" name="newFileName" class="form-control inputBox" placeholder="File Name" aria-describedby="basic-addon2">
+              </div>
+              <div class="modal-footer">
+                <input type="submit" value="Submit" class="btn btn-primary">
+              </div>
+            </form>
+        </div>
+      </div>
+  </div>
+
+  <div class="modal fade" id="delFolder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Delete Folder <i><span class="folName"></span></i>??</h4>
+            </div>
+            <form method="post" class="submitBox" enctype="multipart/form-data" action=<%= action %>>
+              <div class="modal-footer">
+                <input type="text" name="method" class="form-control" placeholder="File Name" aria-describedby="basic-addon2" value="delFolder" style="display: none;" readonly>
+                <input type="text" name="folderDelName" class="form-control foName inputBox" placeholder="File Name" aria-describedby="basic-addon2" value="" style="display: none;" readonly>
+                <input type="submit" value="Yes" class="btn btn-primary">
+              </div>
+            </form>
+        </div>
+      </div>
+  </div>
+
+  <div class="modal fade" id="renameFolder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Rename Folder??</h4>
+            </div>
+            <form method="post" class="submitBox" enctype="multipart/form-data" action=<%= action %>>
+              <div class="modal-footer">
+                <input type="text" name="method" class="form-control" placeholder="File Name" aria-describedby="basic-addon2" value="renFolder" style="display: none;" readonly>
+                <input type="text" name="oldFoName" class="form-control oldfoName" placeholder="Old Folder Name" aria-describedby="basic-addon2" value="" readonly><br>
+                <input type="text" name="newFoName" class="form-control newfoName inputBox" placeholder="New Folder Name" aria-describedby="basic-addon2" value=""><br>
+                <input type="submit" value="Yes" class="btn btn-primary">
+              </div>
+            </form>
+        </div>
+      </div>
+  </div>
+
+  <div class="modal fade" id="delFile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Delete File <i><span class="filName"></span></i>??</h4>
+            </div>
+            <form method="post" class="submitBox" enctype="multipart/form-data" action=<%= action %>>
+              <div class="modal-footer">
+                <input type="text" name="method" class="form-control" placeholder="File Name" aria-describedby="basic-addon2" value="delFile" style="display: none;" readonly>
+                <input type="text" name="fileDelName" class="form-control fiName inputBox" placeholder="File Name" aria-describedby="basic-addon2" value="" style="display: none;" readonly>
+                <input type="submit" value="Yes" class="btn btn-primary">
+              </div>
+            </form>
+        </div>
+      </div>
+  </div>
+
+  <div class="modal fade" id="renameFile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Rename File??</h4>
+            </div>
+            <form method="post" class="submitBox" enctype="multipart/form-data" action=<%= action %>>
+              <div class="modal-footer">
+                <input type="text" name="method" class="form-control" placeholder="File Name" aria-describedby="basic-addon2" value="renFile" style="display: none;" readonly>
+                <input type="text" name="oldFiName" class="form-control oldfiName" placeholder="Old File Name" aria-describedby="basic-addon2" value="" readonly><br>
+                <input type="text" name="newFiName" class="form-control newfiName inputBox" placeholder="New File Name" aria-describedby="basic-addon2" value=""><br>
+                <input type="submit" value="Yes" class="btn btn-primary">
+              </div>
+            </form>
+        </div>
+      </div>
+  </div>
+
+  <div class="modal fade" id="uploadFile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Upload File</h4>
+            </div>
+            <form method="post" class="submitBox" enctype="multipart/form-data" action=<%= action %>>
+              <div class="modal-body">
+                <input type="text" name="method" class="form-control" placeholder="File Name" aria-describedby="basic-addon2" value="uploadFile" style="display: none;" readonly>
+                <input type="file" name="thumbnail" class="form-control">
+              </div>
+              <div class="modal-footer">
+                <input type="submit" value="Submit" class="btn btn-primary">
+              </div>
+            </form>
+        </div>
+      </div>
+  </div>
+
+  <div class="modal fade" id="youtube" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Youtube Downloader</h4>
+            </div>
+            <form method="post" class="submitBox" enctype="multipart/form-data" action=<%= action %>>
+              <div class="modal-body">
+                <input type="text" name="method" class="form-control" placeholder="File Name" aria-describedby="basic-addon2" value="youtube" style="display: none;" readonly>
+                <input type="text" name="youtubeLink" class="form-control">
+              </div>
+              <div class="modal-footer">
+                <input type="submit" value="Submit" class="btn btn-primary">
+              </div>
+            </form>
+        </div>
+      </div>
+  </div>
+
+  <div class="modal fade" id="topology" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content" style="min-height: 50vh; overflow-y: auto;">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">Want to fly to other folders directly?</h4>
+            </div>
+              <div class="modal-body topologyBody">
+                
+              </div>
+        </div>
+      </div>
+  </div>

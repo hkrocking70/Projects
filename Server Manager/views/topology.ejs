@@ -1,0 +1,16 @@
+<% data.forEach(function(d){ %>
+	<% d = d.slice(15, -1)+"/" %>
+
+	<% if (d == "/") { %>
+	    <a href="<%= '/' %>" target="_blank">
+	    	<div class="col-xs-12"><i class="fa fa-home"></i></div>
+	    </a> 
+    <% } %>  
+
+    <% if (d != "/") { %>
+	    <a href="<%= '/users/?folder='+d %>" target="_blank">
+	    	<div class="col-xs-12"><%= d.slice(0,-1)  %></div>
+	    </a> 
+    <% } %>   
+
+<% }) %>

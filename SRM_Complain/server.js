@@ -18,13 +18,14 @@ app.get('/',function(req,res){
 });
 
 app.get('/srmcomplain',function(req,res){
-	var data;
+	var data = {};
 	connection.query("SELECT * from complainrecord",function(err, rows, fields){
 		if(rows.length != 0){
-			data = rows;
+			data["result"] = rows;
+			data["error"] = 0;
 			res.json(data);
 		}else{
-			data = 'No Complain Found..';
+			data["error"] = 1;
 			res.json(data);
 		}
 	});
@@ -35,12 +36,15 @@ app.post('/srmcomplain',function(req,res){
 	var regid = req.body.regid;
 	var complain = req.body.complain;
 	var appstat = 1;
+	var data = {};
 	if(applicant && regid && complain) {
 		connection.query("INSERT INTO complainrecord VALUES('',?,?,?,?)",[applicant,regid,complain,appstat],function(err, rows, fields){
 			if(!!err){
-				res.json("Error Occured.");
+				data["error"] = 1;
+				res.json(data);
 			}else{
-				res.json("No Error Occured.");
+				data["error"] = 0;
+				res.json(data);
 			}
 		});
 	}else{
@@ -52,12 +56,13 @@ app.post('/srmcomplain',function(req,res){
 app.put('/srmcomplain',function(req,res){
 	var complainid = req.body.complainid;
 	var appstat = req.body.appstat;
+	var data = {};
 	if(complainid){
 		connection.query("UPDATE complainrecord SET appstat=? WHERE complainid=?",[appstat,complainid],function(err, rows, fields){
 			if(!!err){
-				data = "Error Updating data";
+				data["error"] = 1;
 			}else{
-				data = "Updated Status Successfully";
+				data["error"] = 0;
 			}
 			res.json(data);
 		});
@@ -69,13 +74,13 @@ app.put('/srmcomplain',function(req,res){
 
 app.delete('/srmcomplain',function(req,res){
 	var complainid = req.body.complainid;
-
+	var data = {};
 	if(complainid){
 		connection.query("DELETE from complainrecord WHERE complainid=?",[complainid],function(err, rows, fields){
 			if(!!err){
-				data = "Error Deleting data";
+				data["error"] = 1;
 			}else{
-				data = "Deleted.";
+				data["error"] = 0;
 			}
 			res.json(data);
 		});

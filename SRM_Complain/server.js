@@ -54,7 +54,7 @@ app.put('/srmcomplain',function(req,res){
 	complainid = parseInt(complainid);
 	var appstat = req.body.appstat;
 	if(complainid){
-		connection.query("UPDATE complainrecord SET appstat=? WHERE complainid=?",[appstat,complainid],function(err, rows, fields){
+		connection.query("UPDATE complainrecord SET appstat=? WHERE complainId=?",[appstat,complainid],function(err, rows, fields){
 			if(!!err){
 				data = "Error Updating data";
 			}else{
@@ -72,7 +72,7 @@ app.delete('/srmcomplain',function(req,res){
 	var complainid = req.body.complainid;
 	complainid = parseInt(complainid);
 	if(complainid){
-		connection.query("DELETE from complainrecord WHERE complainid=?",[complainid],function(err, rows, fields){
+		connection.query("DELETE from complainrecord WHERE complainId=?",[complainid],function(err, rows, fields){
 			if(!!err){
 				data = "Error Deleting data";
 			}else{

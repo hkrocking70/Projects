@@ -78,7 +78,6 @@ app.post('/srmcomplain/update',function(req,res){
 //Delete Request
 app.post('/srmcomplain/delete',function(req,res){
 	var complainid = req.body.complainid;
-	console.log(complainid);
 	complainid = parseInt(complainid);
 	if(complainid){
 		connection.query("DELETE from complainrecord WHERE complainId=?",[complainid],function(err, rows, fields){

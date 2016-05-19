@@ -1,6 +1,7 @@
 var app   = require('express')();
 var http = require('http').Server(app);
 var mysql = require('mysql');
+var cors = require('cors');
 var bodyParser = require("body-parser");
 var connection = mysql.createConnection({
 		host     : '127.0.0.1',
@@ -11,6 +12,7 @@ var connection = mysql.createConnection({
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use(cors());
 	
 app.get('/',function(req,res){
 	data = "Welcome to Complain Box...";

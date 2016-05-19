@@ -19,6 +19,7 @@ app.get('/',function(req,res){
 	res.json(data);
 });
 
+//Fetch Data
 app.get('/srmcomplain',function(req,res){
 	var data;
 	connection.query("SELECT * from complainrecord",function(err, rows, fields){
@@ -32,6 +33,8 @@ app.get('/srmcomplain',function(req,res){
 	});
 });
 
+
+//Post Request
 app.post('/srmcomplain',function(req,res){
 	var applicant = req.body.applicant;
 	var regid = req.body.regid;
@@ -51,7 +54,9 @@ app.post('/srmcomplain',function(req,res){
 	}
 });
 
-app.put('/srmcomplain',function(req,res){
+
+//Update Request
+app.post('/srmcomplain/update',function(req,res){
 	var complainid = req.body.complainid;
 	complainid = parseInt(complainid);
 	var appstat = req.body.appstat;
@@ -70,7 +75,8 @@ app.put('/srmcomplain',function(req,res){
 	}
 });
 
-app.delete('/srmcomplain',function(req,res){
+//Delete Request
+app.post('/srmcomplain/delete',function(req,res){
 	var complainid = req.body.complainid;
 	console.log(complainid);
 	complainid = parseInt(complainid);
@@ -89,6 +95,8 @@ app.delete('/srmcomplain',function(req,res){
 	}
 });
 
+
+//Create Server
 http.listen(8000,function(){
 	console.log("Connected & Listen to port 8000");
 });

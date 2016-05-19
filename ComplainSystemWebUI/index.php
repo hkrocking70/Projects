@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>AARUUSH '16</title>
+    <title>SRM Complain System</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/normalize.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">

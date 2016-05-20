@@ -39,7 +39,7 @@ app.controller('mainCtrl', function ($scope) {
 });
 
 app.controller('viewCtrl', function ($scope, $http) {
-    $http.get('//complain.itshimanshu.me/srmcomplain')
+    $http.get('//localhost:8000/srmcomplain')
         .success(function (response) {
             $scope.records = response;
         });
@@ -51,7 +51,7 @@ app.controller('postCtrl', function ($scope, $http) {
     $scope.postSubmit = function() {
         $http({
             method: 'POST',
-            url: '//complain.itshimanshu.me/srmcomplain',
+            url: '//localhost:8000/srmcomplain',
             data: $scope.user,
             headers : {'Content-Type': 'application/json'} 
         })
@@ -67,7 +67,7 @@ app.controller('delCtrl', function ($scope, $http) {
     $scope.delSubmit = function() {
         $http({
             method: 'POST',
-            url: '//complain.itshimanshu.me/srmcomplain/delete',
+            url: '//localhost:8000/srmcomplain/delete',
             data: $scope.user,
             headers : {'Content-Type': 'application/json'} 
         })
@@ -83,7 +83,7 @@ app.controller('putCtrl', function ($scope, $http) {
     $scope.putSubmit = function() {
         $http({
             method: 'POST',
-            url: '//complain.itshimanshu.me/srmcomplain/update',
+            url: '//localhost:8000/srmcomplain/update',
             data: $scope.user,
             headers : {'Content-Type': 'application/json'} 
         })

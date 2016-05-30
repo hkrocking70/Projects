@@ -125,7 +125,7 @@ router.post('/', upload.single('thumbnail'), function(req, res, next) {
             execSync('mv '+sloc+' '+tloc);
             sloc = '"'+path.normalize("../main_folder/"+req.file.filename)+'"';
             tloc = '"'+path.normalize("../main_folder/"+ofilename)+'"';
-            execSync('mv '+sloc+' '+tloc);
+            execSync('mv '+sloc+' '+tloc + "&& chmod -R 600 " + tloc);
             res.end("File Uploaded");
         }
         catch (e) {
@@ -142,7 +142,7 @@ router.post('/', upload.single('thumbnail'), function(req, res, next) {
             var name = execSync("youtube-dl --get-filename -o '%(title)s-" + y.ytd + ".%(ext)s' "+ y.ytd).toString();
             name = name.trim();
             var loc = '"'+path.normalize("../main_folder/")+'"';
-            execSync('youtube-dl '+youtube + " && chmod 777 '" + name + "' && mv '" + name + "' "+loc);
+            execSync('youtube-dl '+youtube + " && chmod -R 600 '" + name + "' && mv '" + name + "' "+loc);
             res.end("Download Successful");
         }
         catch (e) {

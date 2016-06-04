@@ -11,6 +11,7 @@
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/angular.min.js"></script>
     <script type="text/javascript" src="js/angular-route.js"></script>
+    <script type="text/javascript" src="js/angular.cookies.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/script.js"></script>
@@ -20,10 +21,18 @@
     <div class="container-fluid" ng-app="index" ng-controller="mainCtrl">
         <div class="row">
             <div class="col-xs-12">
-                <button ng-click="viewData()">Show All Complains</button>
-                <button ng-click="postData()">Post Data</button>
-                <button ng-click="delData()">Delete Data</button>
-                <button ng-click="putData()">Update Data</button>
+                <form ng-submit="submit()" class="form-box">
+                    <input type="text" placeholder="Username" name="user" ng-model="user"><br>
+                    <input type="text" placeholder="Username" name="pass" ng-model="pass"><br>
+                    <input type="submit" value="Submit">
+                </form>
+
+                <div class="options" style="display: none;">
+                    <button ng-click="viewData()">Show All Complains</button>
+                    <button ng-click="postData()">Post Data</button>
+                    <button ng-click="delData()">Delete Data</button>
+                    <button ng-click="putData()">Update Data</button>
+                </div>
             </div>
             <div class="col-xs-12">
                 <ng-view></ng-view>

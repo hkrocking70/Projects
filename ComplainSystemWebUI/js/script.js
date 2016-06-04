@@ -114,11 +114,11 @@ app.controller('putCtrl', function ($scope, $http) {
 
 
 $(document).ready(function(){
-    $(window).unload(function() {
+    window.onbeforeunload = function(event) {
         $.ajax({
             type: 'GET',
             async: false,
             url: '//localhost:8000/srmcomplain/logout',
         });
-    });
+    }
 });

@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.locals.sess = {access_token: null, authorized: false};
+app.locals.sess = {access_token: null};
 app.locals.cookieName;
 
 // catch 404 and forward to error handler

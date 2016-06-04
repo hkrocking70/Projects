@@ -4,10 +4,11 @@ var cors = require('cors');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var url = require('url');
-var access;
 var getHash = require("./getHash");
 
 var router = express.Router();
+
+var authorized = false;
 
 router.use(session({
     secret: 'srm_complain',
@@ -34,6 +35,8 @@ router.use(cors({
     allowHeaders: "Cache-Control, Pragma, Origin, Content-Type, X-Requested-With"
 }));
 
+router.use(cookieParser());
+
 /* Create Session */
 router.get('/', function (req, res) {
 
@@ -46,11 +49,13 @@ router.get('/', function (req, res) {
 
     connection.query("SELECT * FROM auth WHERE username=? AND password=?", [user, pass], function (err, rows, fields) {
         if (rows.length != 0) {
-            req.app.locals.sess.authorized = true;
-            res.send("1");
+            res.cookie("loggedin", "1");
+            authorized = true;
+            res.send("Authorized");
         } else {
-            req.app.locals.sess.authorized = false;
-            res.send("0");
+            res.cookie("loggedin", "0");
+            authorized = false;
+            res.send("Unauthorized");
         }
     });
 });
@@ -58,9 +63,18 @@ router.get('/', function (req, res) {
 /* GET home page. */
 router.get('/srmcomplain', function (req, res) {
     var data;
+    authorized = false;
     req.app.locals.sess = req.session;
+    try {
+        if (req.headers.cookie.split("=")[1] == 1) {
+            authorized = true;
+        }
+    }
+    catch (e) {
+        res.send("Unauthorized User");
+    }
 
-    if (req.app.locals.sess.authorized)
+    if (authorized)
         connection.query("SELECT * from complainrecord", function (err, rows, fields) {
             if (rows.length != 0) {
                 data = rows;
@@ -77,12 +91,21 @@ router.get('/srmcomplain', function (req, res) {
 
 //Post Request
 router.post('/srmcomplain', function (req, res) {
+    authorized = false;
+    try {
+        if (req.headers.cookie.split("=")[1] == 1) {
+            authorized = true;
+        }
+    }
+    catch (e) {
+        res.send("Unauthorized User");
+    }
     var applicant = req.body.applicant;
     var regid = req.body.regid;
     var complain = req.body.complain;
     var appstat = 1;
 
-    if (req.app.locals.sess.authorized)
+    if (authorized)
         if (applicant && regid && complain) {
             connection.query("INSERT INTO complainrecord VALUES('',?,?,?,?)", [applicant, regid, complain, appstat], function (err, rows, fields) {
                 if (!!err) {
@@ -101,11 +124,20 @@ router.post('/srmcomplain', function (req, res) {
 
 //Update Request
 router.post('/srmcomplain/update', function (req, res) {
+    authorized = false;
+    try {
+        if (req.headers.cookie.split("=")[1] == 1) {
+            authorized = true;
+        }
+    }
+    catch (e) {
+        res.send("Unauthorized User");
+    }
     var complainid = req.body.complainid;
     complainid = parseInt(complainid);
     var appstat = req.body.appstat;
 
-    if (req.app.locals.sess.authorized)
+    if (authorized)
         if (complainid) {
             connection.query("UPDATE complainrecord SET appstat=? WHERE complainId=?", [appstat, complainid], function (err, rows, fields) {
                 if (!!err) {
@@ -124,10 +156,19 @@ router.post('/srmcomplain/update', function (req, res) {
 
 //Delete Request
 router.post('/srmcomplain/delete', function (req, res) {
+    authorized = false;
+    try {
+        if (req.headers.cookie.split("=")[1] == 1) {
+            authorized = true;
+        }
+    }
+    catch (e) {
+        res.send("Unauthorized User");
+    }
     var complainid = req.body.complainid;
     complainid = parseInt(complainid);
 
-    if (req.app.locals.sess.authorized)
+    if (authorized)
         if (complainid) {
             connection.query("DELETE from complainrecord WHERE complainId=?", [complainid], function (err, rows, fields) {
                 if (!!err) {
@@ -148,6 +189,7 @@ router.post('/srmcomplain/delete', function (req, res) {
 router.get('/srmcomplain/logout', function (req, res) {
     req.app.locals.sess = null;
     req.session.destroy();
+    clearCookie('loggedin');
     res.send("/");
 });
 

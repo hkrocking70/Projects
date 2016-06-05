@@ -46,7 +46,7 @@ app.controller('mainCtrl', function ($scope, $http) {
                 url: '//localhost:8000/?user='+$scope.user+'&pass='+$scope.pass,
             })
             .success(function(data){
-                if (data === "1") {
+                if (data === "Authorized") {
                     $(".form-box").empty().hide();
                     $(".options").show();
                 }
@@ -114,11 +114,11 @@ app.controller('putCtrl', function ($scope, $http) {
 
 
 $(document).ready(function(){
-    window.onbeforeunload = function(event) {
+    $(window).unload(function() {
         $.ajax({
             type: 'GET',
             async: false,
             url: '//localhost:8000/srmcomplain/logout',
         });
-    }
+    });
 });

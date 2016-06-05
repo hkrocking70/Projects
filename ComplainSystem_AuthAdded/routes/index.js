@@ -66,12 +66,12 @@ router.get('/srmcomplain', function (req, res) {
     authorized = false;
     req.app.locals.sess = req.session;
     try {
-        if (req.headers.cookie.split("=")[1] == 1) {
+        if (req.cookies.loggedin == 1) {
             authorized = true;
         }
     }
     catch (e) {
-        res.send("Unauthorized User");
+        res.end("Unauthorized User");
     }
 
     if (authorized)
@@ -93,7 +93,7 @@ router.get('/srmcomplain', function (req, res) {
 router.post('/srmcomplain', function (req, res) {
     authorized = false;
     try {
-        if (req.headers.cookie.split("=")[1] == 1) {
+        if (req.cookies.loggedin == 1) {
             authorized = true;
         }
     }
@@ -126,7 +126,7 @@ router.post('/srmcomplain', function (req, res) {
 router.post('/srmcomplain/update', function (req, res) {
     authorized = false;
     try {
-        if (req.headers.cookie.split("=")[1] == 1) {
+        if (req.cookies.loggedin == 1) {
             authorized = true;
         }
     }
@@ -158,7 +158,7 @@ router.post('/srmcomplain/update', function (req, res) {
 router.post('/srmcomplain/delete', function (req, res) {
     authorized = false;
     try {
-        if (req.headers.cookie.split("=")[1] == 1) {
+        if (req.cookies.loggedin == 1) {
             authorized = true;
         }
     }

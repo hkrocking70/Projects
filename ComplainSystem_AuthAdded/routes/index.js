@@ -49,13 +49,15 @@ router.get('/', function (req, res) {
 
     connection.query("SELECT * FROM auth WHERE username=? AND password=?", [user, pass], function (err, rows, fields) {
         if (rows.length != 0) {
-            res.cookie("loggedin", "1");
+            cookie = now.getDate()+now.getTime()+"1&&0"+agent;
+            res.cookie("userauth", cookie);
             authorized = true;
-            res.send("Authorized");
+            res.json("Authorized");
         } else {
-            res.cookie("loggedin", "0");
+            cookie = now.getDate()+now.getTime()+"0&&1"+agent;
+            res.cookie("userauth", cookie);
             authorized = false;
-            res.send("Unauthorized");
+            res.json("Unauthorized");
         }
     });
 });
@@ -66,12 +68,12 @@ router.get('/srmcomplain', function (req, res) {
     authorized = false;
     req.app.locals.sess = req.session;
     try {
-        if (req.cookies.loggedin == 1) {
+        if (req.cookies.userauth.slice(13,14,1) == 1) {
             authorized = true;
         }
     }
     catch (e) {
-        res.end("Unauthorized User");
+        res.json("Unauthorized User");
     }
 
     if (authorized)
@@ -85,7 +87,7 @@ router.get('/srmcomplain', function (req, res) {
             }
         });
     else
-        res.send("Unauthorized");
+        res.json("Unauthorized");
 });
 
 
@@ -93,12 +95,12 @@ router.get('/srmcomplain', function (req, res) {
 router.post('/srmcomplain', function (req, res) {
     authorized = false;
     try {
-        if (req.cookies.loggedin == 1) {
+        if (req.cookies.userauth.slice(13,14,1) == 1) {
             authorized = true;
         }
     }
     catch (e) {
-        res.send("Unauthorized User");
+        res.json("Unauthorized User");
     }
     var applicant = req.body.applicant;
     var regid = req.body.regid;
@@ -118,7 +120,7 @@ router.post('/srmcomplain', function (req, res) {
             var data = "Please provide all required data.";
             res.json(data);
         } else
-        res.send("Unauthorized");
+        res.json("Unauthorized");
 });
 
 
@@ -126,12 +128,12 @@ router.post('/srmcomplain', function (req, res) {
 router.post('/srmcomplain/update', function (req, res) {
     authorized = false;
     try {
-        if (req.cookies.loggedin == 1) {
+        if (req.cookies.userauth.slice(13,14,1) == 1) {
             authorized = true;
         }
     }
     catch (e) {
-        res.send("Unauthorized User");
+        res.json("Unauthorized User");
     }
     var complainid = req.body.complainid;
     complainid = parseInt(complainid);
@@ -151,19 +153,19 @@ router.post('/srmcomplain/update', function (req, res) {
             data = "Please provide all required data.";
             res.json(data);
         } else
-        res.send("Unauthorized");
+        res.json("Unauthorized");
 });
 
 //Delete Request
 router.post('/srmcomplain/delete', function (req, res) {
     authorized = false;
     try {
-        if (req.cookies.loggedin == 1) {
+        if (req.cookies.userauth.slice(13,14,1) == 1) {
             authorized = true;
         }
     }
     catch (e) {
-        res.send("Unauthorized User");
+        res.json("Unauthorized User");
     }
     var complainid = req.body.complainid;
     complainid = parseInt(complainid);
@@ -182,15 +184,15 @@ router.post('/srmcomplain/delete', function (req, res) {
             data = "Please provide all required data.";
             res.json(data);
         } else
-        res.send("Unauthorized");
+        res.json("Unauthorized");
 });
 
 // Logout Request
 router.get('/srmcomplain/logout', function (req, res) {
     req.app.locals.sess = null;
     req.session.destroy();
-    clearCookie('loggedin');
-    res.send("/");
+    clearCookie('userauth');
+    res.json("/");
 });
 
 module.exports = router;

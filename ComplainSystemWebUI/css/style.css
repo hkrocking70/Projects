@@ -12,10 +12,53 @@ body {
     user-select: none;
 }
 
-.wrapper {
+.wrapper, .wrapper2 {
+    width: 100%;
+    height: 100vh;
+}
+
+.wrapper div, .wrapper2 div {
+    height: 100%;
+}
+
+.login {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.no-pad {
+    margin: 0;
+    padding: 0;
+}
+
+.error {
+    color: red;
+}
+
+.success {
+    color: green;
+}
+
+.animated {
+    -webkit-animation-duration: 1s;
+    -webkit-animation-delay: 0s;
+    -ms-animation-duration: 1s;
+    -ms-animation-delay: 0s;
+    -moz-animation-duration: 1s;
+    -moz-animation-delay: 0s;
+    animation-duration: 1s;
+    animation-delay: 0s;
+}
+
+.options {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100vh;
+    flex-direction: column;
+}
+
+.options button {
+    margin-top: 5px;
 }

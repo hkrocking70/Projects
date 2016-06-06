@@ -1,6 +1,7 @@
 var app = angular.module("index", ["ngRoute", "ngCookies"]);
 var sess;
 var cookie;
+var domain = "//localhost:8000";
 app.config(function ($routeProvider, $locationProvider, $httpProvider) {
     $routeProvider
         .when('/main', {
@@ -35,7 +36,7 @@ app.controller('mainCtrl', function ($scope, $http, scopes, $cookies) {
         $scope.submit = function() {
             $http({
                     method: 'GET',
-                    url: '//localhost:8000/?user='+$scope.user+'&pass='+$scope.pass,
+                    url: domain+'/?user='+$scope.user+'&pass='+$scope.pass,
                 })
                 .success(function(data){
                     if (data === "Authorized") {
@@ -68,7 +69,7 @@ app.controller('viewCtrl', function ($scope, $http, scopes) {
     scopes.store('viewCtrl', $scope);
     $http({
         method: "GET",
-        url: '//localhost:8000/srmcomplain',
+        url: domain+'/srmcomplain',
     })
     .success(function(response){    
         $scope.records = response;
@@ -81,7 +82,7 @@ app.controller('postCtrl', function ($scope, $http, scopes) {
     $scope.postSubmit = function() {
         $http({
             method: 'POST',
-            url: '//localhost:8000/srmcomplain',
+            url: domain+'/srmcomplain',
             data: $scope.user,
             headers : {'Content-Type': 'application/json'} 
         })
@@ -97,7 +98,7 @@ app.controller('delCtrl', function ($scope, $http, scopes) {
     $scope.delSubmit = function() {
         $http({
             method: 'POST',
-            url: '//localhost:8000/srmcomplain/delete',
+            url: domain+'/srmcomplain/delete',
             data: $scope.user,
             headers : {'Content-Type': 'application/json'} 
         })
@@ -113,7 +114,7 @@ app.controller('putCtrl', function ($scope, $http, scopes) {
     $scope.putSubmit = function() {
         $http({
             method: 'POST',
-            url: '//localhost:8000/srmcomplain/update',
+            url: domain+'/srmcomplain/update',
             data: $scope.user,
             headers : {'Content-Type': 'application/json'} 
         })

@@ -32,8 +32,8 @@
                         <form ng-submit="submit()" class="form-box">
                             <span class="message" style="font-size: 4vh;"><b>{{ errorLog }}</b></span>
                             <h3>LOGIN</h3>
-                            <input type="text" placeholder="Username" name="user" ng-model="user" class="form-control"><br>
-                            <input type="text" placeholder="Password" name="pass" ng-model="pass" class="form-control"><br>
+                            <input type="text" placeholder="Username" name="user" ng-model="user.user" class="form-control"><br>
+                            <input type="text" placeholder="Password" name="pass" ng-model="user.pass" class="form-control"><br>
                             <input type="submit" value="Submit" class="btn btn-primary">
                         </form>
                     </center>

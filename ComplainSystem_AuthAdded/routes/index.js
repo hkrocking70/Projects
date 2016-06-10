@@ -29,38 +29,35 @@ var connection = mysql.createConnection({
 var logged;
 
 router.use(cors({
-    origin: "*",
+    origin: "http://localhost",
     methods: "GET, PUT, POST",
-    credentials: false,
+    credentials: true,
     allowHeaders: "Cache-Control, Pragma, Origin, Content-Type, X-Requested-With"
 }));
 
 router.use(cookieParser());
 
-/* Test COnnection */
-router.get('/', function (req, res) {
-    res.json('It\'s working');
-});
-
 /* Create Session */
-router.post('/', function (req, res) {
+router.get('/', function (req, res) {
 
     req.app.locals.sess = req.session;
-    var now = new Date();
-    var user = getHash(req.body.user).result;
-    var pass = getHash(req.body.pass).result;
 
+    var now = new Date();
+    var user = getHash(url.parse(req.url, true).query.user).result;
+    var pass = getHash(url.parse(req.url, true).query.pass).result;
     var agent = getHash(req.headers['user-agent']).result;
 
     connection.query("SELECT * FROM auth WHERE username=? AND password=?", [user, pass], function (err, rows, fields) {
         if (rows.length != 0) {
             cookie = now.getDate()+now.getTime()+"1&&0"+agent;
+            res.cookie("userauth", cookie);
             authorized = true;
-            res.json('Authorized');
+            res.json("Authorized");
         } else {
             cookie = now.getDate()+now.getTime()+"0&&1"+agent;
+            res.cookie("userauth", cookie);
             authorized = false;
-            res.json('Unauthorized');
+            res.json("Unauthorized");
         }
     });
 });
@@ -68,6 +65,16 @@ router.post('/', function (req, res) {
 /* GET home page. */
 router.get('/srmcomplain', function (req, res) {
     var data;
+    authorized = false;
+    req.app.locals.sess = req.session;
+    try {
+        if (req.cookies.userauth.slice(13,14,1) == 1) {
+            authorized = true;
+        }
+    }
+    catch (e) {
+        res.json("Unauthorized User");
+    }
 
     if (authorized)
         connection.query("SELECT * from complainrecord", function (err, rows, fields) {
@@ -80,13 +87,21 @@ router.get('/srmcomplain', function (req, res) {
             }
         });
     else
-        res.json('Unauthorized');
+        res.json("Unauthorized");
 });
 
 
 //Post Request
 router.post('/srmcomplain', function (req, res) {
-
+    authorized = false;
+    try {
+        if (req.cookies.userauth.slice(13,14,1) == 1) {
+            authorized = true;
+        }
+    }
+    catch (e) {
+        res.json("Unauthorized User");
+    }
     var applicant = req.body.applicant;
     var regid = req.body.regid;
     var complain = req.body.complain;
@@ -104,15 +119,22 @@ router.post('/srmcomplain', function (req, res) {
         } else {
             var data = "Please provide all required data.";
             res.json(data);
-        } 
-    else
+        } else
         res.json("Unauthorized");
 });
 
 
 //Update Request
 router.post('/srmcomplain/update', function (req, res) {
-   
+    authorized = false;
+    try {
+        if (req.cookies.userauth.slice(13,14,1) == 1) {
+            authorized = true;
+        }
+    }
+    catch (e) {
+        res.json("Unauthorized User");
+    }
     var complainid = req.body.complainid;
     complainid = parseInt(complainid);
     var appstat = req.body.appstat;
@@ -130,14 +152,21 @@ router.post('/srmcomplain/update', function (req, res) {
         } else {
             data = "Please provide all required data.";
             res.json(data);
-        } 
-    else
+        } else
         res.json("Unauthorized");
 });
 
 //Delete Request
 router.post('/srmcomplain/delete', function (req, res) {
-    
+    authorized = false;
+    try {
+        if (req.cookies.userauth.slice(13,14,1) == 1) {
+            authorized = true;
+        }
+    }
+    catch (e) {
+        res.json("Unauthorized User");
+    }
     var complainid = req.body.complainid;
     complainid = parseInt(complainid);
 
@@ -154,8 +183,7 @@ router.post('/srmcomplain/delete', function (req, res) {
         } else {
             data = "Please provide all required data.";
             res.json(data);
-        } 
-    else
+        } else
         res.json("Unauthorized");
 });
 

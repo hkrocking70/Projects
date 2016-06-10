@@ -8,6 +8,7 @@ app.config(function ($routeProvider, $locationProvider, $httpProvider) {
             templateUrl: 'main_view.php',
             controller: 'mainViewCtrl'
         });
+    $httpProvider.defaults.withCredentials = true;
 });
 
 app.factory("scopes", function($rootScope) {
@@ -34,10 +35,8 @@ app.controller('mainCtrl', function ($scope, $http, scopes, $cookies) {
     else {
         $scope.submit = function() {
             $http({
-                    method: 'POST',
-                    url: domain,
-                    data: $scope.user,
-                    headers : {'Content-Type': 'application/json'} 
+                    method: 'GET',
+                    url: domain+'/?user='+$scope.user+'&pass='+$scope.pass,
                 })
                 .success(function(data){
                     if (data === "Authorized") {
@@ -48,6 +47,7 @@ app.controller('mainCtrl', function ($scope, $http, scopes, $cookies) {
                         $(".mainBg").addClass("slideOutLeft");
                         $(".formWrap").addClass("slideOutRight");
                         $(".mainBg").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+                            $(this).hide();
                             window.location.href = "#/main";
                         });
                         $(".formWrap").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
@@ -90,20 +90,6 @@ app.controller('postCtrl', function ($scope, $http, scopes) {
             scopes.get('mainViewCtrl').viewData();
         });
     }
-
-    $scope.range = function(min, max, excludes, includes, step=1) {
-        step = step || 1;
-        var input = [];
-        for (var i=min; i<=max; i+=step){
-            if ($.inArray(i, excludes) == -1)
-                input.push(i);
-        }
-
-        includes.forEach(function(x) {
-            input.push(x);
-        });
-        return input;
-    }
 });
 
 app.controller('delCtrl', function ($scope, $http, scopes) {
@@ -138,7 +124,7 @@ app.controller('putCtrl', function ($scope, $http, scopes) {
     }
 });
 
-app.controller('mainViewCtrl', function ($scope, $http, scopes, $cookies) {
+app.controller('mainViewCtrl', function ($scope, $http, scopes) {
     scopes.store('mainViewCtrl', $scope);
     $scope.viewData = function () {
         $scope.template = "record_view.php";
@@ -154,12 +140,6 @@ app.controller('mainViewCtrl', function ($scope, $http, scopes, $cookies) {
     
     $scope.putData = function() {
         $scope.template = "update_view.php";
-    }
-
-    $scope.logout = function() {
-        $cookies.remove("loggedin");
-        document.location = "#";
-        location.reload();
     }
 });
 

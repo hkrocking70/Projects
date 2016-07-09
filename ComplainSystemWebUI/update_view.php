@@ -15,7 +15,11 @@
             
             <div class="form-group">
                 <label for="appstat">Complain Status</label>
-                <input type="text" class="form-control" id="appstat" placeholder="Complain Status" ng-model="user.appstat">
+                <select class="form-control" id="appstat" ng-model="user.appstat">
+                   <option value="1">Pending</option>
+                   <option value="2">In-Staging</option>
+                   <option value="3">Resolved</option>
+                </select>
             </div>  
             
             <button type="submit" class="btn btn-default" name="action">Submit</button>

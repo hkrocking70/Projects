@@ -5,11 +5,25 @@ var session = require('express-session');
 var cookieParser = require('cookie-parser');
 var url = require('url');
 var getHash = require("./getHash");
+var mongoose = require('mongoose');
+var firebase = require("firebase");
 
 var router = express.Router();
 
+// Check Authorization status
 var authorized = false;
 
+var sess;
+
+//mongoose.connect('mongodb://127.0.0.1:27017/apidb');
+
+var firebase = require("firebase");
+firebase.initializeApp({
+    serviceAccount: "./ComplainSystem-6dc82f90fab8.json",
+    databaseURL: "https://complainsystem-10672.firebaseio.com/"
+});
+
+// Session Variables
 router.use(session({
     secret: 'srm_complain',
     resave: false,
@@ -19,6 +33,7 @@ router.use(session({
     }
 }));
 
+// Database Connection
 var connection = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
@@ -26,8 +41,7 @@ var connection = mysql.createConnection({
     database: 'complainbox',
 });
 
-var logged;
-
+// Cross-Site References
 router.use(cors({
     origin: "http://localhost",
     methods: "GET, PUT, POST",
@@ -40,7 +54,7 @@ router.use(cookieParser());
 /* Create Session */
 router.get('/', function (req, res) {
 
-    req.app.locals.sess = req.session;
+    sess = req.session;
 
     var now = new Date();
     var user = getHash(url.parse(req.url, true).query.user).result;
@@ -65,18 +79,10 @@ router.get('/', function (req, res) {
 /* GET home page. */
 router.get('/srmcomplain', function (req, res) {
     var data;
-    authorized = false;
-    req.app.locals.sess = req.session;
-    try {
-        if (req.cookies.userauth.slice(13,14,1) == 1) {
-            authorized = true;
-        }
-    }
-    catch (e) {
-        res.json("Unauthorized User");
-    }
+    var idToken = url.parse(req.url, true).query.auth;
 
-    if (authorized)
+    firebase.auth().verifyIdToken(idToken).then(function(decodedToken) {
+        //var uid = decodedToken.sub;
         connection.query("SELECT * from complainrecord", function (err, rows, fields) {
             if (rows.length != 0) {
                 data = rows;
@@ -85,61 +91,54 @@ router.get('/srmcomplain', function (req, res) {
                 data = 'No Complain Found..';
                 res.json(data);
             }
-        });
-    else
-        res.json("Unauthorized");
+        });        
+    }).catch(function(error) {
+        res.json("Error");
+    });
 });
 
 
 //Post Request
 router.post('/srmcomplain', function (req, res) {
     authorized = false;
-    try {
-        if (req.cookies.userauth.slice(13,14,1) == 1) {
-            authorized = true;
-        }
-    }
-    catch (e) {
-        res.json("Unauthorized User");
-    }
+    sess = req.session;
+    var idToken = url.parse(req.url, true).query.auth;
     var applicant = req.body.applicant;
     var regid = req.body.regid;
     var complain = req.body.complain;
+    var venue = req.body.venue + " - " + req.body.roomno;
+    var contact = req.body.contact;
     var appstat = 1;
 
-    if (authorized)
+    firebase.auth().verifyIdToken(idToken).then(function(decodedToken) {
         if (applicant && regid && complain) {
-            connection.query("INSERT INTO complainrecord VALUES('',?,?,?,?)", [applicant, regid, complain, appstat], function (err, rows, fields) {
+            connection.query("INSERT INTO complainrecord VALUES('',?,?,?,?,?,?)", [applicant, regid, complain, venue, contact, appstat], function (err, rows, fields) {
                 if (!!err) {
-                    res.json("Error Occured.");
+                    res.json('Error Occured.');
                 } else {
-                    res.json("No Error Occured.");
+                    res.json('No Error Occured.');
                 }
             });
         } else {
-            var data = "Please provide all required data.";
+            var data = 'Please provide all required data.';
             res.json(data);
-        } else
-        res.json("Unauthorized");
+        }         
+    }).catch(function(error) {
+        res.json("Error");
+    });
 });
 
 
 //Update Request
 router.post('/srmcomplain/update', function (req, res) {
     authorized = false;
-    try {
-        if (req.cookies.userauth.slice(13,14,1) == 1) {
-            authorized = true;
-        }
-    }
-    catch (e) {
-        res.json("Unauthorized User");
-    }
+    sess = req.session;
+    var idToken = url.parse(req.url, true).query.auth;
     var complainid = req.body.complainid;
     complainid = parseInt(complainid);
     var appstat = req.body.appstat;
 
-    if (authorized)
+    firebase.auth().verifyIdToken(idToken).then(function(decodedToken) {
         if (complainid) {
             connection.query("UPDATE complainrecord SET appstat=? WHERE complainId=?", [appstat, complainid], function (err, rows, fields) {
                 if (!!err) {
@@ -152,25 +151,21 @@ router.post('/srmcomplain/update', function (req, res) {
         } else {
             data = "Please provide all required data.";
             res.json(data);
-        } else
-        res.json("Unauthorized");
+        }        
+    }).catch(function(error) {
+        console.log(error);
+        res.json("Error");
+    });
 });
 
 //Delete Request
 router.post('/srmcomplain/delete', function (req, res) {
     authorized = false;
-    try {
-        if (req.cookies.userauth.slice(13,14,1) == 1) {
-            authorized = true;
-        }
-    }
-    catch (e) {
-        res.json("Unauthorized User");
-    }
+    sess = req.session;
+    var idToken = url.parse(req.url, true).query.auth;    
     var complainid = req.body.complainid;
     complainid = parseInt(complainid);
-
-    if (authorized)
+    firebase.auth().verifyIdToken(idToken).then(function(decodedToken) {
         if (complainid) {
             connection.query("DELETE from complainrecord WHERE complainId=?", [complainid], function (err, rows, fields) {
                 if (!!err) {
@@ -180,16 +175,18 @@ router.post('/srmcomplain/delete', function (req, res) {
                 }
                 res.json(data);
             });
-        } else {
-            data = "Please provide all required data.";
-            res.json(data);
-        } else
-        res.json("Unauthorized");
+            } else {
+                data = "Please provide all required data.";
+                res.json(data);
+        }       
+    }).catch(function(error) {
+        res.json("Error");
+    });
 });
 
 // Logout Request
 router.get('/srmcomplain/logout', function (req, res) {
-    req.app.locals.sess = null;
+    res.cookie("userauth", null);
     req.session.destroy();
     clearCookie('userauth');
     res.json("/");

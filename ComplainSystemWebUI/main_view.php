@@ -5,6 +5,7 @@
             <button ng-click="postData()" class="col-xs-12 btn btn-primary no-pad">Post Data</button>
             <button ng-click="delData()" class="col-xs-12 btn btn-primary no-pad">Delete Data</button>
             <button ng-click="putData()" class="col-xs-12 btn btn-primary no-pad">Update Data</button>
+            <button ng-click="logout()" class="col-xs-12 btn btn-primary no-pad">Logout</button>
         </div>
     </div>
     <div class="col-lg-10 animated slideInRight" style="overflow-y: auto;">

@@ -13,6 +13,8 @@
                 <th>Name</th>
                 <th>Registration Number</th>
                 <th>Complain</th>
+                <th>Location</th>
+                <th>Contact</th>
                 <th>Complain Status</th>
             </thead>
             
@@ -22,7 +24,9 @@
                     <td>{{ record.applicant }}</td>
                     <td>{{ record.regid }}</td>
                     <td>{{ record.complain }}</td>
-                    <td>{{ record.appstat }}</td>
+                    <td>{{ record.location }}</td>
+                    <td>{{ record.contact }}</td>
+                    <td>{{ record.appstat=='1' ? "Pending" : (record.appstat=='2' ? "In-Staging" : "Resolved") }}</td>
                 </tr>
             </tbody>
         </table>

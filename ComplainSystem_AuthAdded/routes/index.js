@@ -19,8 +19,8 @@ var sess;
 
 var firebase = require("firebase");
 firebase.initializeApp({
-    serviceAccount: "./ComplainSystem-6dc82f90fab8.json",
-    databaseURL: "https://complainsystem-10672.firebaseio.com/"
+    serviceAccount: "./complainsystem-1ad8f958673e.json",
+    databaseURL: "https://complainsystem-abcc1.firebaseio.com/"
 });
 
 // Session Variables

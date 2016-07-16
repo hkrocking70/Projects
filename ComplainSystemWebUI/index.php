@@ -18,12 +18,11 @@
     <script src="js/angularfire.min.js"></script>
     <script>
         // Initialize Firebase
-        var firebase;
         var config = {
-            apiKey: "AIzaSyBCymrds_-sTQT3Pim2Qyi6u7-Y3ti67EE",
-            authDomain: "complainsystem-10672.firebaseapp.com",
-            databaseURL: "https://complainsystem-10672.firebaseio.com",
-            storageBucket: "complainsystem-10672.appspot.com",
+            apiKey: "AIzaSyBnAPUy6X78gRO9q7c3mnC2Z2NZBIfb1mA",
+            authDomain: "complainsystem-abcc1.firebaseapp.com",
+            databaseURL: "https://complainsystem-abcc1.firebaseio.com",
+            storageBucket: "complainsystem-abcc1.appspot.com",
         };
         firebase.initializeApp(config);
     </script>
@@ -45,8 +44,10 @@
                         <form ng-submit="submit()" class="form-box">
                             <span class="message" style="font-size: 4vh;"><b>{{ errorLog }}</b></span>
                             <h3>LOGIN</h3>
-                            <input type="text" placeholder="Username" name="user" ng-model="user.user" class="form-control"><br>
-                            <input type="text" placeholder="Password" name="pass" ng-model="user.pass" class="form-control"><br>
+                            <input type="text" placeholder="Username" name="user" ng-model="user.user" class="form-control">
+                            <br>
+                            <input type="text" placeholder="Password" name="pass" ng-model="user.pass" class="form-control">
+                            <br>
                             <input type="submit" value="Submit" class="btn btn-primary">
                             <button class="sample btn btn-primary">Test Button</button>
                         </form>
